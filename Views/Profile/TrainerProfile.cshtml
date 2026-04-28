@@ -1,0 +1,241 @@
+﻿@using AutoDrive.Models
+
+<h5>Часове</h5>
+
+<button class="btn btn-success mb-3"
+        onclick="document.getElementById('addLessonForm').style.display='block'">
+    + Добави час
+</button>
+
+<div id="addLessonForm" style="display:none; border:1px solid #ccc; padding:15px; margin-bottom:20px;">
+
+    <form method="post" asp-action="CreateLesson">
+
+        <label>Курсист:</label>
+        <select name="enrollmentId" class="form-control">
+            @foreach (var l in ViewBag.Enrollments ?? new List<Enrollment>())
+            {
+                <option value="@l.Id">
+                    @l.trained.FirstName @l.trained.LastName
+                </option>
+            }
+        </select>
+
+        <br />
+
+        <label>Тип час:</label>
+        <select id="lessonType" name="lessonTypeId" class="form-control">
+            @foreach (var t in ViewBag.LessonTypes ?? new List<LessonType>())
+            {
+                <option value="@t.Id">@t.Name</option>
+            }
+        </select>
+
+        <label>Статус:</label>
+        <select name="statusId" class="form-control">
+            @foreach (var s in ViewBag.LessonStatuses)
+            {
+                <option value="@s.Id">@s.Name</option>
+            }
+        </select>
+
+        <label>Превозно средство:</label>
+        <select name="vehicleId" class="form-control">
+            <option value="">Избери превозно средство</option>
+            @foreach (var v in ViewBag.Vehicles)
+            {
+                <option value="@v.Id">
+                    @v.Brand @v.Model (@v.ModelYear)
+                </option>
+            }
+        </select>
+
+        <br />
+
+        <label>Дата:</label>
+        <input type="date" name="date" class="form-control" onchange="loadVehicles()" />
+
+        <br />
+
+        <label>Начален час:</label>
+        <input type="time" name="start" class="form-control" onchange="loadVehicles()" />
+
+        <br />
+
+        <label>Краен час:</label>
+        <input type="time" name="end" class="form-control" onchange="loadVehicles()" />
+
+        <div id="vehicleBlock" style="display:none; margin-top:10px;">
+            <label>Превозно средство:</label>
+            <select name="vehicleId" id="vehicleSelect" class="form-control"></select>
+        </div>
+
+        <br />
+
+        <button class="btn btn-primary">Запази</button>
+
+    </form>
+
+</div>
+
+<hr />
+
+@foreach (var l in ViewBag.Lessons ?? new List<Lesson>())
+{
+    <div class="border p-2 mb-2">
+
+        <b>Курсист:</b> @l.enrollment.trained.FirstName @l.enrollment.trained.LastName <br />
+        <b>Дата:</b> @l.LDate.ToShortDateString() <br />
+        <b>Час:</b> @l.StartTime - @l.EndTime <br />
+        <b>Тип:</b> @l.lessonType?.Name <br />
+        <b>Статус:</b> @l.status?.Name <br />
+
+        <button class="btn btn-primary btn-sm mt-2"
+                onclick="openEdit(
+                        @l.Id,
+                        @l.enrollmentId,
+                        @l.lessonTypeId,
+                        '@l.LDate.ToString("yyyy-MM-dd")',
+                        '@l.StartTime',
+                        '@l.EndTime'
+                    )">
+            Редактирай
+        </button>
+
+    </div>
+}
+
+<div id="editLessonForm" style="display:none; border:2px solid #007bff; padding:15px; margin-top:20px;">
+
+    <h4>Редакция на час</h4>
+
+    <form method="post" asp-action="EditLesson">
+
+        <input type="hidden" name="id" id="editId" />
+
+        <label>Курсист:</label>
+        <select name="enrollmentId" id="editEnrollmentId" class="form-control">
+            @foreach (var l in ViewBag.Enrollments ?? new List<Enrollment>())
+            {
+                <option value="@l.Id">
+                    @l.trained.FirstName @l.trained.LastName
+                </option>
+            }
+        </select>
+
+        <br />
+
+        <label>Тип:</label>
+        <select name="lessonTypeId" id="editLessonTypeId" class="form-control">
+            @foreach (var t in ViewBag.LessonTypes ?? new List<LessonType>())
+            {
+                <option value="@t.Id">@t.Name</option>
+            }
+        </select>
+
+        <br />
+
+        <label>Статус:</label>
+        <select name="statusId" id="editStatusId" class="form-control">
+            @foreach (var s in ViewBag.LessonStatuses ?? new List<LessonStatus>())
+            {
+                <option value="@s.Id">@s.Name</option>
+            }
+        </select>
+
+        <br />
+
+        <label>Дата:</label>
+        <input type="date" name="date" id="editDate" class="form-control" />
+
+        <br />
+
+        <label>Начален час:</label>
+        <input type="time" name="start" id="editStart" class="form-control" />
+
+        <br />
+
+        <label>Краен час:</label>
+        <input type="time" name="end" id="editEnd" class="form-control" />
+
+        <br />
+
+        <button class="btn btn-primary">Запази промени</button>
+        <button type="button" class="btn btn-secondary"
+                onclick="document.getElementById('editLessonForm').style.display='none'">
+            Отказ
+        </button>
+
+    </form>
+</div>
+
+<hr />
+
+<h2>Плащания</h2>
+
+<button class="btn btn-success mb-3"
+        onclick="document.getElementById('payForm').style.display='block'">
+    + Добави плащане
+</button>
+
+<div id="payForm" style="display:none; border:1px solid #ccc; padding:15px;">
+
+    <form method="post" asp-action="AddPayment">
+
+        <label>Курсист:</label>
+        <select name="enrollmentId" class="form-control">
+            @foreach (var e in ViewBag.Enrollments ?? new List<Enrollment>())
+            {
+                <option value="@e.Id">
+                    @e.trained.FirstName @e.trained.LastName
+                </option>
+            }
+        </select>
+
+        <br />
+
+        <label>Сума:</label>
+        <input type="number" step="0.01" name="amount" class="form-control" />
+
+        <br />
+
+        <label>Метод:</label>
+        <select name="method" class="form-control">
+            <option>Кеш</option>
+            <option>Банков превод</option>
+            <option>POS терминал</option>
+        </select>
+
+        <br />
+
+        <button class="btn btn-primary">Запази</button>
+
+    </form>
+
+</div>
+
+<hr />
+
+@foreach (var p in ViewBag.Payments ?? new List<Payment>())
+{
+    <div class="border p-2 mb-2">
+
+        <b>Курсист:</b>
+        @p.enrollment.trained.FirstName @p.enrollment.trained.LastName <br />
+
+        <b>Курс:</b>
+        @p.enrollment.course?.category?.Name <br />
+
+        <b>Дата:</b>
+        @p.PayDate.ToShortDateString() <br />
+
+        <b>Метод:</b>
+        @p.Method <br />
+
+        <b>Сума:</b>
+        @p.Amount лв
+
+    </div>
+}
+
+<script src="~/js/lessons.js"></script>

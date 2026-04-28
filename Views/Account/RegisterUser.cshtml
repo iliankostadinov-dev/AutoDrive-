@@ -1,0 +1,60 @@
+﻿@model AutoDrive.Models.Person
+
+@{
+    ViewData["Title"] = "Създай потребител";
+}
+
+<div class="container mt-5" style="max-width:400px;">
+    <h2>Създай потребител</h2>
+
+    <form method="post" asp-controller="Account" asp-action="RegisterUser">
+
+        <input asp-for="FirstName" class="form-control mb-2" placeholder="Име" />
+        <input asp-for="LastName" class="form-control mb-2" placeholder="Фамилия" />
+
+        <select asp-for="genderId" class="form-control mb-2">
+            <option value="">Пол</option>
+            @foreach (var g in ViewBag.Genders)
+            {
+                <option value="@g.Id">@g.Name</option>
+            }
+        </select>
+
+        <select asp-for="countryId" class="form-control mb-2">
+            <option value="">Държава</option>
+            @foreach (var c in ViewBag.Countries)
+            {
+                <option value="@c.Id">@c.Name</option>
+            }
+        </select>
+
+        <input asp-for="BirthDate" type="date" class="form-control mb-2" />
+        <input asp-for="PhoneNumber" class="form-control mb-2" />
+
+        <!-- ROLE -->
+        <select id="roleSelect" name="roleId" class="form-control mb-2">
+            <option value="">Роля</option>
+            <option value="1">Admin</option>
+            <option value="2">Trainer</option>
+            <option value="3">Student</option>
+        </select>
+
+        <!-- COURSE (only student) -->
+        <div id="courseBlock" class="mb-2">
+            <select name="courseId" class="form-control">
+                <option value="">Избери курс</option>
+                @foreach (var c in ViewBag.Courses)
+                {
+                    <option value="@c.Id">@c.category?.Name</option>
+                }
+            </select>
+        </div>
+
+        <input name="email" class="form-control mb-2" placeholder="Email" />
+        <input name="password" type="password" class="form-control mb-3" placeholder="Парола" />
+
+        <button class="btn btn-success w-100">Създай</button>
+    </form>
+</div>
+
+<script src="~/js/CreateUser.js"></script>

@@ -1,0 +1,57 @@
+﻿@model AutoDrive.Models.Person
+
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<div class="container mt-5" style="max-width:400px;">
+    <h2 class="text-center mb-4">Регистрация</h2>
+
+    <form method="post" asp-action="Register" asp-controller="Account">
+
+        <input asp-for="FirstName" class="form-control mb-2" placeholder="Име" />
+        <input asp-for="LastName" class="form-control mb-2" placeholder="Фамилия" />
+
+        <select asp-for="genderId" class="form-control mb-2">
+            <option value="">Пол</option>
+            @foreach (var g in ViewBag.Genders)
+            {
+                <option value="@g.Id">@g.Name</option>
+            }
+        </select>
+
+        <select asp-for="countryId" class="form-control mb-2">
+            <option value="">Държава</option>
+            @foreach (var c in ViewBag.Countries)
+            {
+                <option value="@c.Id">@c.Name</option>
+            }
+        </select>
+
+        <input asp-for="BirthDate" type="date" class="form-control mb-2" />
+        <input asp-for="PhoneNumber" class="form-control mb-2" placeholder="Телефон" />
+
+        <!-- COURSE (only for student enrollment) -->
+        @if (ViewBag.IsFirstUser != true)
+        {
+            <select name="SelectedCourseId" class="form-control mb-2">
+                <option value="">Курс (задължителен)</option>
+                @foreach (var c in ViewBag.Courses)
+                {
+                    <option value="@c.Id">
+                        @c.category?.Name - @c.TotalPrice
+                    </option>
+                }
+            </select>
+        }
+
+        <input name="email" type="email" class="form-control mb-2" placeholder="Имейл" />
+        <input name="password" type="password" class="form-control mb-3" placeholder="Парола" />
+
+        <button type="submit" class="btn btn-success w-100">
+            Регистрация
+        </button>
+
+    </form>
+
+</div>

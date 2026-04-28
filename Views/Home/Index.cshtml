@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Начало";
+}
+
+<section id="hero" class="text-center bg-light p-5">
+    <h1 class="display-4">Доказана автошкола</h1>
+    <p class="lead">Започни своя курс още днес</p>
+    <a href="/Account/Register" class="btn btn-primary btn-lg mt-3">Запиши се</a>
+</section>
+
+<section id="courses" class="container mt-5 center-section">
+    <h2 class="text-center mb-4">Автокурсове</h2>
+
+    <div class="row text-center">
+
+        @foreach (var c in ViewBag.Courses ?? new List<AutoDrive.Models.Course>())
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card p-3 h-100 shadow-sm">
+
+                    <h4>@c.category?.Name</h4>
+
+                    <p>
+                        Професионално обучение за категория
+                        <b>@c.category?.Name</b>
+                    </p>
+
+                    <a href="/Account/Register" class="btn btn-outline-primary mt-auto">
+                        Запиши се
+                    </a>
+
+                </div>
+            </div>
+        }
+
+    </div>
+</section>
+
+<section id="about" class="bg-light mt-5 p-5 text-center">
+    <h2>За нас</h2>
+    <p>Ние сме автошкола с дългогодишен опит и професионални инструктори.</p>
+</section>
+
+<section id="prices" class="container mt-5 center-section">
+    <h2 class="text-center mb-4">Цени</h2>
+
+    <div class="row text-center">
+
+        @foreach (var c in ViewBag.Courses ?? new List<AutoDrive.Models.Course>())
+        {
+            <div class="col-md-4 mb-4">
+                <div class="border p-3 shadow-sm">
+
+                    <h5>@c.category?.Name</h5>
+
+                    <h3 class="text-success">
+                        @c.TotalPrice EUR
+                    </h3>
+
+                </div>
+            </div>
+        }
+
+    </div>
+</section>
+
+<section id="contact" class="container mt-5 text-center">
+    <h2>Контакти</h2>
+    <p>Свържи се с нас за повече информация</p>
+
+    <p><b>Телефон:</b> @ViewBag.AdminPhone</p>
+    <p><b>Email:</b> @ViewBag.AdminEmail</p>
+</section>

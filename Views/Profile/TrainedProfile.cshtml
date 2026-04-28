@@ -1,0 +1,89 @@
+﻿<h2>Записани курсове</h2>
+
+<button class="btn btn-success mb-3"
+        onclick="document.getElementById('newCourseForm').style.display='block'">
+    + Запиши нов курс
+</button>
+
+<div id="newCourseForm" style="display:none; border:1px solid #ccc; padding:15px; margin-bottom:20px;">
+
+    <form method="post" asp-action="EnrollCourse">
+
+        <label>Избери курс:</label>
+        <select name="courseId" class="form-control">
+            @foreach (var c in ViewBag.Courses)
+            {
+                <option value="@c.Id">
+                    @c.category?.Name - @c.TotalPrice лв
+                </option>
+            }
+        </select>
+
+        <br />
+
+        <button class="btn btn-primary">Запиши се</button>
+
+    </form>
+
+</div>
+
+@foreach (var e in ViewBag.Enrollments)
+{
+    <div class="card mb-4 p-3">
+
+        <h4>Категория: @e.course?.category?.Name</h4>
+
+        <p>Цена на курса: @e.course?.TotalPrice лв</p>
+
+        <p>Дата на записване: @e.StartDate.ToShortDateString()</p>
+
+        <hr />
+
+        <h5>Обучение</h5>
+
+        @foreach (var cp in e.course?.coursePlans)
+        {
+            <div>
+                @cp.lessonsPlan.lessonType.Name:
+                <b>@cp.lessonsPlan.CountHours часа</b>
+            </div>
+        }
+
+        <hr />
+
+        <h5>Плащания</h5>
+
+        @foreach (var p in ((List<Payment>)ViewBag.Payments)
+            .Where(x => x.enrollmentId == e.Id))
+        {
+            <div>
+                @p.PayDate.ToShortDateString() |
+                @p.Method |
+                @p.Amount лв
+            </div>
+        }
+
+        <hr />
+
+        <h5>Часове</h5>
+
+        @foreach (var l in ((List<Lesson>)ViewBag.Lessons)
+            .Where(x => x.enrollmentId == e.Id))
+        {
+            <div class="border p-2 mb-2">
+
+                Инструктор: @l.trainer?.FirstName @l.trainer?.LastName<br />
+
+                Дата: @l.LDate.ToShortDateString()<br />
+
+                @l.StartTime - @l.EndTime<br />
+
+                @l.lessonType?.Name<br />
+
+                @l.status?.Name
+
+            </div>
+        }
+
+    </div>
+}

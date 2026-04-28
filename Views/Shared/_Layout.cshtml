@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@{
+    var isLoggedIn = User.Identity.IsAuthenticated;
+    var userName = User.Identity?.Name;
+}
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AutoDrive</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+
+            <a class="navbar-brand" href="/">AutoDrive</a>
+
+            <div class="navbar-nav ms-auto">
+
+                <a class="nav-link text-white" href="/">Начало</a>
+                <a class="nav-link text-white" href="/Home/Index#courses">Автокурсове</a>
+                <a class="nav-link text-white" href="/Home/Index#about">За нас</a>
+                <a class="nav-link text-white" href="/Home/Index#prices">Цени</a>
+                <a class="nav-link text-white" href="/Home/Index#contact">Контакти</a>
+
+                @if (!isLoggedIn)
+                {
+                    <a class="nav-link text-white" href="/Account/Login">Вход</a>
+                    <a class="btn btn-success ms-3" href="/Account/Register">Регистрация</a>
+                }
+                else
+                {
+                    <a class="btn btn-danger" href="/Account/Logout">
+                        Изход
+                    </a>
+                }
+
+            </div>
+        </div>
+    </nav>
+
+    <main style="margin-top:80px;">
+        @RenderBody()
+    </main>
+
+    <footer class="bg-dark text-white text-center p-3 mt-5">
+        © 2026 AutoDrive
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+</html>

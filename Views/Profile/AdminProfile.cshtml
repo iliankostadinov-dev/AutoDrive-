@@ -1,0 +1,238 @@
+﻿@using AutoDrive.Models
+
+<h2>Admin Panel</h2>
+
+<hr />
+
+<h3>Добави категория</h3>
+
+<form method="post" asp-action="AddCategory" asp-controller="Admin">
+    <input name="Name" class="form-control" placeholder="Име категория" required />
+    <button class="btn btn-primary mt-2">Добави</button>
+</form>
+
+<hr />
+
+<h4>Списък категории</h4>
+
+@foreach (var c in ViewBag.Categories ?? new List<Category>())
+{
+    <div class="d-flex justify-content-between align-items-center border p-2 mb-2">
+        <span>@c.Name</span>
+
+        <form method="post" asp-action="DeleteCategory" asp-controller="Admin">
+            <input type="hidden" name="id" value="@c.Id" />
+            <button class="btn btn-danger btn-sm">Изтрий</button>
+        </form>
+    </div>
+}
+
+<hr />
+
+<h3>Добави превозно средство</h3>
+
+<form method="post" asp-action="AddVehicle" asp-controller="Admin">
+
+    <select name="categoryId" class="form-control" required>
+        <option value="">Категория</option>
+        @foreach (var c in ViewBag.Categories ?? new List<Category>())
+        {
+            <option value="@c.Id">@c.Name</option>
+        }
+    </select>
+
+    <input name="Brand" class="form-control mt-2" placeholder="Марка" required />
+    <input name="Model" class="form-control mt-2" placeholder="Модел" required />
+    <input name="ModelYear" type="number" class="form-control mt-2" placeholder="Година" required />
+    <input name="Weight" type="number" class="form-control mt-2" placeholder="Тегло" required />
+    <input name="Color" class="form-control mt-2" placeholder="Цвят" />
+
+    <button class="btn btn-primary mt-2">Добави</button>
+</form>
+
+<hr />
+
+<h4>Списък с превозни средства</h4>
+
+@foreach (var v in ViewBag.Vehicles ?? new List<Vehicle>())
+{
+    <div class="d-flex justify-content-between border p-2 mb-2">
+        <span>@v.Brand @v.Model (@v.category?.Name)</span>
+
+        <form method="post" asp-action="DeleteVehicle" asp-controller="Admin">
+            <input type="hidden" name="id" value="@v.Id" />
+            <button class="btn btn-danger btn-sm">Изтрий</button>
+        </form>
+    </div>
+}
+
+<hr />
+
+<h3>Добави курс</h3>
+
+<form method="post" asp-action="AddCourse" asp-controller="Admin">
+
+    <select name="categoryId" class="form-control" required>
+        <option value="">Категория</option>
+        @foreach (var c in ViewBag.Categories ?? new List<Category>())
+        {
+            <option value="@c.Id">@c.Name</option>
+        }
+    </select>
+
+    <input name="TotalPrice" type="number" step="0.01" class="form-control mt-2" placeholder="Цена" required />
+
+    <button class="btn btn-primary mt-2">Добави</button>
+</form>
+
+<hr />
+
+<h4>Списък със създадени курсове</h4>
+
+@foreach (var c in ViewBag.Courses ?? new List<Course>())
+{
+    <div class="d-flex justify-content-between border p-2 mb-2">
+        <span>@c.category?.Name - @c.TotalPrice EUR</span>
+
+        <form method="post" asp-action="DeleteCourse" asp-controller="Admin">
+            <input type="hidden" name="id" value="@c.Id" />
+            <button class="btn btn-danger btn-sm">Изтрий</button>
+        </form>
+    </div>
+}
+
+<hr />
+
+<h3>Добави тип час</h3>
+
+<form method="post" asp-action="AddLessonType" asp-controller="Admin">
+    <input name="name" class="form-control" placeholder="Тип урок" required />
+    <button class="btn btn-primary mt-2">Добави</button>
+</form>
+
+<hr />
+
+<h4>Типове на часовете</h4>
+
+@foreach (var t in ViewBag.LessonTypes ?? new List<LessonType>())
+{
+    <div class="d-flex justify-content-between border p-2 mb-2">
+        <span>@t.Name</span>
+
+        <form method="post" asp-action="DeleteLessonType" asp-controller="Admin">
+            <input type="hidden" name="id" value="@t.Id" />
+            <button class="btn btn-danger btn-sm">Изтрий</button>
+        </form>
+    </div>
+}
+
+<hr />
+
+<h3>Добави статус на час</h3>
+
+<form method="post" asp-action="AddLessonStatus" asp-controller="Admin">
+    <input name="name" class="form-control" placeholder="Статус" required />
+    <button class="btn btn-primary mt-2">Добави</button>
+</form>
+
+<hr />
+
+<h4>Статуси на часовете</h4>
+
+@foreach (var s in ViewBag.LessonStatuses ?? new List<LessonStatus>())
+{
+    <div class="d-flex justify-content-between border p-2 mb-2">
+        <span>@s.Name</span>
+
+        <form method="post" asp-action="DeleteLessonStatus" asp-controller="Admin">
+            <input type="hidden" name="id" value="@s.Id" />
+            <button class="btn btn-danger btn-sm">Изтрий</button>
+        </form>
+    </div>
+}
+
+<hr />
+
+<h3>Добави план на часовете</h3>
+
+<form method="post" asp-action="AddLessonsPlan" asp-controller="Admin">
+
+    <select name="lessonTypeId" class="form-control" required>
+        <option value="">Тип час</option>
+        @foreach (var t in ViewBag.LessonTypes ?? new List<LessonType>())
+        {
+            <option value="@t.Id">@t.Name</option>
+        }
+    </select>
+
+    <input name="countHours" type="number" class="form-control mt-2" placeholder="Часове" required />
+
+    <button class="btn btn-primary mt-2">Добави</button>
+</form>
+
+<hr />
+
+<h4>План на часовете</h4>
+
+@foreach (var lp in ViewBag.LessonsPlans ?? new List<LessonsPlan>())
+{
+    <div class="d-flex justify-content-between border p-2 mb-2">
+        <span>@lp.lessonType?.Name - @lp.CountHours ч.</span>
+
+        <form method="post" asp-action="DeleteLessonsPlan" asp-controller="Admin">
+            <input type="hidden" name="id" value="@lp.Id" />
+            <button class="btn btn-danger btn-sm">Изтрий</button>
+        </form>
+    </div>
+}
+
+<h3>Добави план на курсовете</h3>
+
+<form method="post" asp-action="AddCoursePlan" asp-controller="Admin">
+
+    <select name="courseId" class="form-control" required>
+        <option value="">Курс</option>
+        @foreach (var c in ViewBag.Courses ?? new List<Course>())
+        {
+            <option value="@c.Id">
+                @c.category?.Name - @c.TotalPrice лв
+            </option>
+        }
+    </select>
+
+    <select name="lessonsPlanId" class="form-control mt-2" required>
+        <option value="">План</option>
+        @foreach (var lp in ViewBag.LessonsPlans ?? new List<LessonsPlan>())
+        {
+            <option value="@lp.Id">
+                @lp.lessonType?.Name - @lp.CountHours ч.
+            </option>
+        }
+    </select>
+
+    <button class="btn btn-success mt-2">Свържи</button>
+</form>
+
+<h4>План на курсовете</h4>
+
+@foreach (var cp in ViewBag.CoursePlans ?? new List<CoursePlan>())
+{
+    <div class="d-flex justify-content-between border p-2 mb-2">
+        <span>
+            @cp.course?.category?.Name -
+            @cp.lessonsPlan?.lessonType?.Name
+        </span>
+
+        <form method="post" asp-action="DeleteCoursePlan" asp-controller="Admin">
+            <input type="hidden" name="courseId" value="@cp.courseId" />
+            <input type="hidden" name="lessonsPlanId" value="@cp.lessonsPlanId" />
+            <button class="btn btn-danger btn-sm">Изтрий</button>
+        </form>
+    </div>
+}
+
+<a class="btn btn-primary mb-3"
+   asp-controller="Account"
+   asp-action="RegisterUser">
+    + Добави потребител
+</a>

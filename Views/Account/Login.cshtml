@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Вход";
+}
+
+<div class="container mt-5" style="max-width:400px;">
+    <h2 class="text-center mb-4">Вход</h2>
+
+    <form method="post" action="/Account/Login">
+
+        <input type="email" name="email" class="form-control" placeholder="Имейл" />
+
+        <input type="password" name="password" class="form-control" placeholder="Парола" />
+
+        <button class="btn btn-primary w-100">Вход</button>
+
+    </form>
+</div>
