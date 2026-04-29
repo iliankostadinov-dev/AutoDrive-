@@ -37,7 +37,7 @@ The system simulates a real-world driving school platform where:
 
 ### Authentication & Authorization
 - User registration and login
-- Role-based access (Admin / Trainer / Trainee)
+- Role-based access (Admin / Trainer / Student)
 - Secure session handling
 
 ### Course Management
