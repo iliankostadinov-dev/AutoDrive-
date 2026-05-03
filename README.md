@@ -1,76 +1,82 @@
-# AutoDrive System
+# 🚗 AutoDrive System
 
-AutoDrive is a web-based driving school management system built with ASP.NET Core MVC.  
-It supports user roles, course management, lessons, enrollments, and payments.
+A full-stack **ASP.NET Core MVC (.NET 8)** application for managing a driving school workflow, including users, courses, lessons, and enrollments.
 
----
-
-## Purpose
-
-The system simulates a real-world driving school platform where:
-- Users can register and manage profiles
-- Students can enroll in driving courses
-- Trainers manage lessons and schedules
-- Admins manage the whole system
-
-## User Roles
-
-- Admin – full system control
-- Trainer – manages lessons and students
-- Student – enrolls in courses and attends lessons
+The project focuses on backend architecture, role-based access control, and relational database design using Entity Framework Core.
 
 ---
 
-## Tech Stack
+## 🎯 What this project demonstrates
+
+- Building a real-world **role-based system (Admin / Trainer / Student)**
+- Designing and managing **relational databases**
+- Implementing **authentication and authorization**
+- Structuring a scalable MVC web application
+
+---
+
+## 👥 Roles
+
+- **Admin** – manages users, courses, and system data  
+- **Trainer** – manages lessons and student progress  
+- **Student** – enrolls in courses and attends lessons  
+
+---
+
+## 🧰 Tech Stack
 
 - ASP.NET Core MVC (.NET 8)
-- Entity Framework Core
+- Entity Framework Core (Code First)
 - PostgreSQL
-- C#
+- ASP.NET Identity
 - Razor Views
 - Bootstrap
-- JavaScript
 
 ---
 
-## Features
+## ⚙️ Core Features
 
-### Authentication & Authorization
+### 🔐 Authentication & Authorization
 - User registration and login
-- Role-based access (Admin / Trainer / Student)
-- Secure session handling
+- Role-based access control using ASP.NET Identity
 
-### Course Management
+### 📚 Course Management
 - Create and manage driving courses
 - Assign trainers and students
-- Track course progress
+- Track enrollments
 
-### Lessons System
-- Lesson scheduling
-- Lesson status tracking
-- Lesson types and vehicles support
+### 🗓️ Lesson Management
+- Schedule lessons per course
+- Track lesson status and assignments
 
-### Payments
-- Payment tracking per course/enrollment
-
-### Database
-- PostgreSQL database
-- Entity Framework Core Code First
-- Migrations support
+### 🗄️ Database
+- Relational schema using PostgreSQL
+- EF Core Code First migrations
+- Proper entity relationships (Users, Courses, Lessons, Enrollments)
 
 ---
 
-## Architecture
+## 🧠 Engineering Highlights
 
-- MVC (Model–View–Controller)
-- Separation of concerns:
-  - Controllers - business logic
-  - Models - data structure
-  - Views - UI layer
-- EF Core for ORM
-- Code First database approach
+- Implemented **role-based authorization system**
+- Designed **relational database with multiple entity relationships**
+- Applied **MVC separation of concerns**
+- Built scalable structure suitable for extension (payments, analytics, etc.)
+
+---
+
+## 🚀 Key Challenge
+
+The main challenge was designing and maintaining consistent relationships between users, courses, and lessons while keeping the system scalable and cleanly structured.
+
+---
 
 ## Setup & Installation
+
+### Clone repository
+```bash
+git clone https://github.com/your-username/AutoDrive-System.git
+```
 
 ### Install dependencies
 
